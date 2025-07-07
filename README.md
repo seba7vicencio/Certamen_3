@@ -21,8 +21,8 @@ Sigue estos pasos para instalar y correr el proyecto:
 
 1. Clonar el Repositorio
 
-git clone <URL_DEL_REPOSITORIO_GIT>
-cd <NOMBRE_DEL_REPOSITORIO>
+git clone https://github.com/seba7vicencio/Certamen_3.git
+
 
 2. Crear y Activar un Entorno Virtual
 
