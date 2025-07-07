@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titulo_pagina }}</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f4f4f9; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 960px; margin: auto; background: white; padding: 20px 40px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 30px; }
+        .workshop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-top: 20px; }
+        .workshop-card { border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; }
+        .workshop-card:hover { transform: translateY(-5px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .filter-form { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 30px; padding: 15px; background-color: #f8f9fa; border-radius: 8px; }
+        .filter-form select { font-size: 1em; padding: 8px 12px; border-radius: 5px; border: 1px solid #ccc; }
+        .filter-form .clear-filter { text-decoration: none; color: #3498db; font-weight: 500; }
+        .workshop-card h2 { font-size: 1.3em; color: #3498db; margin-top: 0; margin-bottom: 10px; }
+        .workshop-card p { margin: 8px 0; line-height: 1.6; }
+        .workshop-card .meta { font-size: 0.9em; color: #555; border-top: 1px solid #eee; padding-top: 10px; margin-top: 15px;}
+        .no-workshops { text-align: center; color: #777; padding: 50px; background-color: #fafafa; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+                <h1>{{ titulo_pagina }}</h1>
+
+        <form method="get" action="" class="filter-form">
+            <select name="categoria" onchange="this.form.submit()">
+                <option value="">Todas las categorías</option>
+                {% for categoria in categorias %}
+                    <option value="{{ categoria.id }}" {% if categoria.id == categoria_seleccionada_id %}selected{% endif %}>
+                        {{ categoria.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+            <a href="{% url 'portal_talleres' %}" class="clear-filter">Limpiar filtro</a>
+        </form>
+        
+        {% if talleres %}
+            <div class="workshop-grid">
+                {% for taller in talleres %}
+                    <div class="workshop-card">
+                        <h2>{{ taller.nombre }}</h2>
+                        <p>{{ taller.descripcion }}</p>
+                        <div class="meta">
+                            <p><strong>Categoría:</strong> {{ taller.categoria.nombre }}</p>
+                            <p><strong>Fecha:</strong> {{ taller.fecha|date:"d/m/Y" }}</p>
+                            <p><strong>Lugar:</strong> {{ taller.lugar.nombre }}</p>
+                            <p><strong>Profesor:</strong> {{ taller.profesor.nombre_completo }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-workshops">
+                <h2>No hay talleres programados por el momento.</h2>
+                <p>¡Vuelve a consultar pronto para ver las novedades!</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
